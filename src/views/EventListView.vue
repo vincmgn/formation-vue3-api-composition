@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue'
-
+import { getEvents } from '@/services/EventService'
 import { ref, onMounted } from 'vue'
 
-const events = ref(null)
+interface Event {
+  id: number
+}
+
+let events = ref<Event[]>([])
 
 onMounted(() => {
-  fetch('https://github.com/typicode/demo/blob/main/db.json')
+  getEvents()
     .then((response) => {
-      console.log(response)
+      events.value = response.data
     })
-    .catch((error) => {
-      console.error(error)
-    })
+    .catch((error) => console.log(error))
 })
 </script>
 
